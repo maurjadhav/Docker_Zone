@@ -1,5 +1,4 @@
 # get default vpc id
-
 data "aws_vpc" "default" {
   default = true
 }
@@ -44,7 +43,7 @@ data "aws_ami" "ubuntu" {
 
 # create a key from the key pair
 resource "aws_key_pair" "docker-key" {
-  key_name   = "for-docker"
+  key_name   = "docker-key"
   public_key = file("~/.ssh/id_rsa.pub")
 }
 
