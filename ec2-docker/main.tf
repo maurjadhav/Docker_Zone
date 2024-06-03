@@ -55,8 +55,12 @@ resource "aws_instance" "docker" {
   vpc_security_group_ids      = [aws_security_group.allow_all.id]
   user_data                   = file("installdocker.sh")
   associate_public_ip_address = true
+  root_block_device {
+    volume_size = 30
+    volume_type = "gp3"
+  }
 
   tags = {
-    Name = "lt-docker"
+    Name = "docker-machine"
   }
 }
