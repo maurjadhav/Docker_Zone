@@ -7,7 +7,7 @@
 ```
 cd ec2-docker
 terraform init
-terraform apply -var "region=ap-south-1" -var "instance_type=t2.micro" -auto-approve
+terraform apply -var "region=ap-south-2" -var "instance_type=t3.micro" -auto-approve
 ```
 * Now wait till the execution is completed and look into outputs. Wait fr 2-3 minutes
 * Now ssh into instance and start using docker

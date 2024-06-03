@@ -4,6 +4,6 @@ variable "region" {
 }
 
 variable "instance_type" {
-    default = "t3.micro"
-    description = "set the instance type"
+  default     = "t3.micro"
+  description = "set the instance type"
 }
