@@ -1,14 +1,14 @@
 # takes amazoncorretto as a base image
-FROM amazoncorretto:17
+FROM openjdk:17
 
 # add metadata for the information
 LABEL author="practice"
 LABEL project="spring-prtclinic"
 
 # creating the folder and adding permission
-RUN mkdir /spc && chown nobody /spc
+RUN mkdir /spc && adduser spc && chown spc /spc
 # switch the user
-USER nobody
+USER spc
 # change the current directory
 WORKDIR /spc
 
