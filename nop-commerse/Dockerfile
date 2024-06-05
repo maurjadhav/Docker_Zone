@@ -1,16 +1,14 @@
-# dotnet build and published
-FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
-RUN git clone https://github.com/maurjadhav/nopCommerce-jenkins.git
-RUN mkdir published
-RUN cd nopCommerce-jenkins
-RUN dotnet publish -c Release -o published/ nopCommerce-jenkins/src/Presentation/Nop.Web/Nop.Web.csproj
-
-# deploying
 FROM mcr.microsoft.com/dotnet/sdk:8.0
-RUN mkdir /nopCommerce && chown nobody /nopCommerce
-USER nobody
-WORKDIR /nopCommerce
-COPY --from=build --chown=nobody:nobody published/ /nopCommerce
-RUN cd /nopCommerce && mkdir logs && mkdir bin
+LABEL AUTHOR="shaikkhajaibrahim"
+# installing unzip
+RUN apt update 
+RUN apt install unzip -y 
+RUN mkdir /app
+WORKDIR /app
+ARG DOWNLOAD_URL="https://github.com/nopSolutions/nopCommerce/releases/download/release-4.70.1/nopCommerce_4.70.1_NoSource_linux_x64.zip"
+# Downloading a file from internet
+ADD ${DOWNLOAD_URL} /app/
 EXPOSE 5000
-CMD [ "dotnet", "Nop.Web.dll", "--urls", "http://0.0.0.0:5000" ]
+# unzip the file and add bin and logs folder
+RUN unzip nopCommerce_4.70.1_NoSource_linux_x64.zip && mkdir bin && mkdir logs
+CMD ["dotnet", "Nop.Web.dll", "--urls", "http://0.0.0.0:5000" ]
