@@ -1,24 +1,16 @@
-# takes amazoncorretto as a base image
-FROM openjdk:17
+# building the java code
+FROM maven:3.9.7-eclipse-temurin-17 AS build
+RUN git clone https://github.com/dummyrepos/spring-petclinic-june24.git
+RUN cd spring-petclinic-june24 && mvn clean package
 
+# running the application
+FROM amazoncorretto:17-alpine-jdk
 # add metadata for the information
 LABEL author="practice"
 LABEL project="spring-prtclinic"
-
-# creating the folder and adding permission
-RUN mkdir /spc && adduser spc && chown spc /spc
-# switch the user
-USER spc
-# change the current directory
+RUN mkdir /spc && chown nobody /spc
+USER nobody
 WORKDIR /spc
-
-# Download_url with a default value
-ARG DOWNLOAD_URL="https://khajareferenceapps.s3.ap-south-1.amazonaws.com/spring-petclinic-3.2.0-SNAPSHOT.jar"
-# download spring petclinic
-RUN curl -O ${DOWNLOAD_URL}
-
-# expose 8080 port as spring petclinic needs 8080
+COPY --from=build --chown=nobody /spring-petclinic-june24/target/spring-petclinic-3.3.0-SNAPSHOT.jar /spc/spring-petclinic.jar
 EXPOSE 8080
-
-# command to start the application
-CMD ["java", "-jar", "spring-petclinic-3.2.0-SNAPSHOT.jar"]
+CMD ["java", "-jar", "spring-petclinic.jar"]
