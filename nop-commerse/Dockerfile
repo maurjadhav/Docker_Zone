@@ -3,6 +3,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 LABEL author="practice"
 LABEL description="Builds the nopCommerce application from source code"
 LABEL project="practice-nopCommerce"
+#git cloning
 RUN git clone https://github.com/nopSolutions/nopCommerce.git
 RUN cd nopCommerce
 RUN mkdir published
@@ -13,6 +14,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0
 LABEL author="practice"
 LABEL description="Runs the nopCommerce application"
 LABEL project="practice-nopCommerce"
+# creating user and hom dir
 RUN useradd -d /app -m -s /bin/bash nop
 USER nop
 WORKDIR /nop
