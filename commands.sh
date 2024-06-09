@@ -19,7 +19,14 @@ docker image rm -f $(docker image ls -q)        # delete the all images forceful
 
 # container rnn
 docker container run -d -P --name <'container-name'> <'image_name'>    # dynamic container port forwardeing
+
 docker container run -d -p --name <'container-name'> <'image_name'>     # static container port forwardeing
+
 docker container exec -it <'container-name'> <'shell'>          # entering into the container       
                                                                 # -it stands for interactive terminal
 docker container rm -f $(docker container ls -a -q)         # delete all container at a time
+
+
+
+# for inspecting the data 
+docker <'container|image|volume'> inspect <name>
